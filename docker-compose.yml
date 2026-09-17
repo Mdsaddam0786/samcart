@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: samcart
+      POSTGRES_PASSWORD: samcart
+      POSTGRES_DB: samcart
+    ports:
+      - "5433:5432"
+    volumes:
+      - samcart_db_data:/var/lib/postgresql/data
+
+volumes:
+  samcart_db_data:
