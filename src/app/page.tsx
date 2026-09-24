@@ -1,7 +1,7 @@
-import { prisma } from "@/lib/prisma";
-import { ProductCard } from "@/components/shared/product-card";
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { prisma } from '@/lib/prisma';
+import { ProductCard } from '@/components/shared/product-card';
+import { Input } from '@/components/ui/input';
+import { Search } from 'lucide-react';
 
 export default async function HomePage({
   searchParams,
@@ -17,20 +17,20 @@ export default async function HomePage({
         ...(search
           ? {
               OR: [
-                { title: { contains: search, mode: "insensitive" } },
-                { description: { contains: search, mode: "insensitive" } },
+                { title: { contains: search, mode: 'insensitive' } },
+                { description: { contains: search, mode: 'insensitive' } },
               ],
             }
           : {}),
-        ...(category && category !== "all" ? { category } : {}),
+        ...(category && category !== 'all' ? { category } : {}),
       },
       include: { seller: { select: { name: true } } },
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: 'desc' },
     }),
     prisma.product.findMany({
       where: { published: true },
       select: { category: true },
-      distinct: ["category"],
+      distinct: ['category'],
     }),
   ]);
 
@@ -38,7 +38,7 @@ export default async function HomePage({
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       <section className="mb-10 rounded-2xl bg-gradient-to-br from-indigo-600 to-indigo-800 px-6 py-12 text-white sm:px-10">
         <h1 className="text-3xl font-bold sm:text-4xl">
-          Buy and sell anything on SamCart
+          Buy and sell anything on SamCart easily
         </h1>
         <p className="mt-2 max-w-xl text-indigo-100">
           A simple marketplace where sellers list products and buyers check out
@@ -58,20 +58,20 @@ export default async function HomePage({
         </div>
         <select
           name="category"
-          defaultValue={category ?? "all"}
-          className="h-10 rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
-        >
+          defaultValue={category ?? 'all'}
+          className="h-10 rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20">
           <option value="all">All categories</option>
           {categories.map((c) => (
-            <option key={c.category} value={c.category}>
+            <option
+              key={c.category}
+              value={c.category}>
               {c.category}
             </option>
           ))}
         </select>
         <button
           type="submit"
-          className="h-10 rounded-lg bg-indigo-600 px-4 text-sm font-medium text-white hover:bg-indigo-500"
-        >
+          className="h-10 rounded-lg bg-indigo-600 px-4 text-sm font-medium text-white hover:bg-indigo-500">
           Filter
         </button>
       </form>
